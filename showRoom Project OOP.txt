@@ -1,0 +1,648 @@
+#include<iostream>
+#include<string>
+#include<conio.h>
+#include<cstring>
+#include<fstream>
+using namespace std;
+class Person {
+public:
+	char name[20];
+	unsigned int age, CNIC;
+	void setData(string n, int a, int c);
+	void displayData();
+	Person();
+};
+void Person::setData( string n, int a, int c) {
+	strcpy_s(name, n.c_str());
+	age = a;
+	CNIC = c;
+}
+void Person::displayData() {
+	cout << "Name : " << name << endl;
+	cout << "Age : " << age << endl;
+	cout << "CNIC : " << CNIC << endl;
+}
+Person::Person() {
+	strcpy_s(name, "");
+	age = 0;
+	CNIC = 0;
+}
+//
+class Specifications {
+public:
+	float mileage, kmsDriven;
+	unsigned int year;
+	char engine[20], color[20];
+	void setData_specs(float m, float k, int y, string e, string c );
+	void displayData_specs();
+	Specifications();
+};
+void Specifications::setData_specs(float m, float k, int y, string e, string c) {
+	mileage = m;
+	kmsDriven = k;
+	year = y;
+	strcpy_s(engine, e.c_str());
+	strcpy_s(color, c.c_str());
+	
+}
+void Specifications::displayData_specs() {
+
+	cout << " Color : " << color <<endl;
+	cout << " Engine : " << engine  << endl;
+	cout << " Distance driven : " << kmsDriven << " kms"<< endl;
+	cout << " Mileage : " << mileage  << endl;
+	cout << " Year : " << year  << endl;
+}
+Specifications::Specifications() {
+	
+	strcpy_s(color, "");
+	strcpy_s(engine, "");
+
+	kmsDriven = 0.0;
+	mileage = 0.0;
+	year = 0;
+}
+//
+class Car {
+	char brand[20], model[20], noPlate[20];
+	Specifications specs;
+	unsigned int noofUnits;
+	float price;
+public:
+	void setData_car(string brnd, string mdl, string np, string eng, string clr, int nou, float prc, int yr, float ml, float km);
+	void displayData_car();
+	int returnCarsinArray(Car cars[20]);
+	void updateUnits(Car &c);
+	void searchCar_byNoplate(Car car[20]);
+	bool return_Findcar(string a);
+	string getCar_name();
+	string getCar_model();
+	void searchCar_byName(Car car[20]);
+	float getCar_price();
+	int getCar_noofUnits();
+	Car getCar();
+	Car();
+};
+void Car::setData_car(string brnd, string mdl, string np, string eng, string clr, int nou, float prc, int yr, float ml, float km) {
+	strcpy_s(brand, brnd.c_str());
+	strcpy_s(model, mdl.c_str());
+	strcpy_s(noPlate, np.c_str());
+	
+	specs.setData_specs(ml, km, yr, eng, clr);
+	noofUnits = nou;
+	price = prc;
+
+}
+void Car::displayData_car() {
+	cout << "Brand : " << brand << endl;
+	cout << " Model : " << model << endl;
+	specs.displayData_specs();
+	cout << " Number plate : " << noPlate << endl;
+	cout << " Price : " << price << endl;
+	cout << " Available units : " << noofUnits<< endl;
+}
+int Car::returnCarsinArray(Car cars[20]) {
+	for (int i = 0; i < 20; i++) {
+		if ( cars[i].noofUnits<=0)
+		{
+			return i;
+		}
+	}
+
+}
+void Car::updateUnits(Car &c) {
+	c.noofUnits = c.noofUnits+1;
+}
+string Car::getCar_model() {
+	return model;
+}
+bool Car::return_Findcar(string a) {
+	if (a != model) 
+		return false;
+	
+	else
+		return true;
+}
+void Car::searchCar_byNoplate(Car car[20]) {
+	string a;
+	cout << "Enter the car's number plate: " << endl;
+	cin >> a;
+	for (int i = 0; i < 20; i++) {
+		if (a == car[i].noPlate) {
+			cout << car[i].specs.color << "" << car[i].brand << "" << car[i].model << "" << car[i].specs.year << " " << endl;
+		}
+		else {
+			cout << "No Record Found ." << endl;
+		}
+
+	}
+}
+float Car::getCar_price() {
+	return price;
+}
+int Car::getCar_noofUnits() {
+	return noofUnits;
+}
+string Car::getCar_name() {
+	return brand;
+}
+Car Car::getCar() {
+	Car c;
+	//c.brand = brand;
+	//c.model = model;
+	//c.noofUnits = noofUnits;
+	//c.noPlate = noPlate;
+	//c.price = price;
+	//c.specs.color = specs.color;
+	//c.specs.engine = specs.engine;
+	//c.specs.kmsDriven = specs.kmsDriven;
+	//c.specs.mileage = specs.mileage;
+	//c.specs.year = specs.year;
+	return  c;
+}
+void Car::searchCar_byName(Car car[20]) {
+	string carName;
+	bool chk = false;
+	cout << "Enter car name: " << endl;
+	cin >> carName;
+	for (int i = 0; i < 20; i++) {
+		if (carName == car[i].getCar_name()) {
+			car[i].displayData_car();
+			chk = true;
+		}
+	}
+	if (chk != true) {
+		cout << "Car not found" << endl;
+	}
+
+
+}
+Car::Car() {
+	strcpy_s(brand,"");
+	strcpy_s(specs.engine,"");
+	strcpy_s(model,"");
+	strcpy_s(specs.color,"");
+	strcpy_s(noPlate,"");
+	
+	price = 0;
+	
+	noofUnits = 0;
+	specs.kmsDriven = 0;
+	specs.mileage = 0;
+	specs.year = 0;
+}
+//
+class Employee :public Person {
+public:
+	unsigned int empID;
+	char role[20];
+	void setData_emp(int e, int ag, int cnic, string r, string nam);
+	void displayData_emp();
+	int getEmp_id();
+	void setCar();
+
+
+	Employee();
+};
+int Employee::getEmp_id() { return empID; }
+void Employee::setData_emp(int e, int ag, int cnic, string r, string nam) {
+	empID = e;
+	strcpy_s(name, nam.c_str());
+	
+	age = ag;
+	CNIC = cnic;
+	strcpy_s(role, r.c_str());
+	
+}
+void Employee::displayData_emp() {
+	displayData();
+	cout << "Employee ID : " << empID << endl;
+	cout << "Role : " << role << endl;
+}
+Employee::Employee() {
+	empID = 0;
+	strcpy_s(role, "");
+}
+//
+class Member :public Person {
+	float amountSpent;
+	//Car carsBought[5];
+public:
+	unsigned int memID, balance, noofCars_bought;
+	void setData_mem(int id, float am, int bal, int carsBought, int cnic, int ag, string nam);
+	void displayData_mem();
+	bool return_FindmemberID(int a);
+	int getMem_bal();
+	int getMem_ID();
+	int getMem_noofCars_bought();
+	float getMem_amspent();
+	Member();
+};
+void Member::setData_mem(int id, float am, int bal, int carsBought, int cnic, int ag, string nam) {
+	memID = id;
+	strcpy_s(name, nam.c_str());
+	
+	age = ag;
+	CNIC = cnic;
+	amountSpent = am;
+	balance = bal;
+	noofCars_bought = carsBought;
+}
+void Member::displayData_mem() {
+	displayData();
+	cout << "Member ID : " << memID << endl;
+	cout << "Total amount spent : " << amountSpent << endl;
+
+}
+float Member::getMem_amspent() {
+	return amountSpent;
+}
+int Member::getMem_bal() {
+	return balance;
+}
+int Member::getMem_noofCars_bought() {
+	return noofCars_bought;
+}
+bool Member::return_FindmemberID(int a) {
+	if (a != memID)
+		return false;
+	else
+		return true;
+}
+int Member::getMem_ID() {
+	return memID;
+}
+Member::Member() {
+	memID = 0;
+	balance = 0;
+	amountSpent = 0;
+	noofCars_bought = 0;
+}
+//
+class ShowRoom {
+public:
+	Employee emp;
+	Member mem;
+	Car cars;
+	int revenue;
+	void buyCar(string carName,ShowRoom &f,int memid);
+	void addCar(ShowRoom &f);
+	void addMember(ShowRoom &f);
+	void viewCars(ShowRoom &f);
+	bool verifyEmp(int a);
+	bool verifyMem(int a);
+	void viewMembers(ShowRoom &f);
+	
+	ShowRoom();
+};
+void ShowRoom::addMember(ShowRoom &f) {
+	ifstream readFile;
+	ofstream writeFile;
+	int id, am, bal, carsb, cnic, age;
+		bool check = true;
+		string name,ye;
+		readFile.open("some.bin", ios::binary);
+	cout << "Enter member's name: " << endl;
+	cin >> name;
+	cout << "Enter member's age: " << endl;
+	cin >> age;
+	cout << "Enter member's cninc: " << endl;
+	cin >> cnic;
+	cout << "Enter member's mount spent in this showroom: " << endl;
+	cin >> am;
+	cout << "Enter member's verified bank balance: " << endl;
+	cin >> bal;
+	cout << "Enter member's number of cars bought from this showroom" << endl;
+	cin >> carsb;
+	blk:
+	cout << "Assign an id to the new member: " << endl;
+	cin >> id;
+	while (readFile.read(reinterpret_cast<char*>(&f),sizeof(ShowRoom))) {
+		if (f.mem.getMem_ID() == id) {
+			check = false;
+			cout << "Member id already assigned to an existing member.\n";
+			cout << "Press any key to assign a valid id\n";
+			cin >> ye;
+			goto blk;
+		}
+
+	}readFile.close();
+	if (check) {
+		writeFile.open("some.bin", ios::binary | ios::app);
+		if (!writeFile.is_open()) {
+			cout << "File not open\n";
+		}else
+		mem.setData_mem(id, am, bal, carsb, cnic, age, name);
+		writeFile.write(reinterpret_cast<char*>(&f),sizeof(f));
+		writeFile.close();
+
+	}
+}
+void ShowRoom::addCar(ShowRoom &f) {
+	string brnd, mdl, eng, clr, nop;
+	int year, units;
+	float milag, pric, kmsd;
+	ofstream writeFile;
+	cout << "Enter car's brand: " << endl;
+	cin >> brnd;
+	cout << "Enter car's model: " << endl;
+	cin >> mdl;
+	cout << "Enter car's engine: " << endl;
+	cin >> eng;
+	cout << "Enter car's color: " << endl;
+	cin >> clr;
+	cout << "Enter car's registration plate no: " << endl;
+	cin >> nop;
+	cout<<"Enter cars km/ltr average: " << endl;
+	cin >> milag;
+	cout << "Enter car's totat distance driven in kms (mileage): " << endl;
+	cin >> kmsd;
+	cout << "Enter car's available units : " << endl;
+	cin >> units;
+	cout << "Enter car's price: " << endl;
+	cin >> pric;
+	cout << "Enter car's year of launch: " << endl;
+	cin >> year;
+	writeFile.open("some.bin", ios::binary | ios::app);
+	f.cars.setData_car(brnd, mdl, nop, eng, clr, units, pric, year, milag, kmsd);
+	writeFile.write(reinterpret_cast<char*>(&f),sizeof(ShowRoom));
+	writeFile.close();
+
+}
+bool ShowRoom::verifyEmp(int a) {
+	ifstream read;
+	ShowRoom f;
+	read.open("some.bin", ios::binary);
+	
+	while (read.read(reinterpret_cast<char*>(&f), sizeof(f))) {
+		if (f.emp.getEmp_id() == a) {
+			return true;
+		}
+		else {
+
+			return false;
+		}
+	}
+
+	read.close();
+}
+void ShowRoom::viewCars(ShowRoom& f) {
+	ifstream readFile;
+
+	readFile.open("some.bin", ios::binary);
+	if (!readFile.is_open()) {
+		cout << "File not open\n";
+	}
+	else
+		while (readFile.read(reinterpret_cast<char*>(&f), sizeof(ShowRoom))) {
+
+			f.cars.displayData_car();
+			cout << endl;
+
+		}
+
+
+}
+bool ShowRoom::verifyMem(int a) {
+	ifstream readFile;
+	
+	
+	readFile.open("some.bin", ios::binary);
+	if (!readFile.is_open()) {
+		cout << "File not open\n";
+	}
+	else 
+		while (readFile.read((char*)(this), sizeof(ShowRoom)))
+		{
+			//mem.displayData_mem();
+			if (mem.getMem_ID()== a)
+			{
+				return true;
+			}
+		}
+	
+}
+void ShowRoom::viewMembers(ShowRoom &f) {
+
+	ifstream readFile;
+	readFile.open("some.bin", ios::binary);
+	if (!readFile.is_open()) {
+		cout << "File not open\n";
+	}
+	else
+	while (readFile.read(reinterpret_cast<char*>(&f),sizeof(ShowRoom))) {
+			if(f.mem.age>0)
+			f.mem.displayData_mem();
+			cout << endl;
+
+		}
+	readFile.close();
+}
+void ShowRoom::buyCar(string carName,ShowRoom &f,int memid) {
+	fstream ioFile;
+	bool chk = false,chk2=false;
+	int net,carPrice;
+	ioFile.open("some.bin", ios::binary|ios::in|ios::out);
+	while (ioFile.read(reinterpret_cast<char*>(&f), sizeof(ShowRoom))) {
+//initial loop to sarch for the car
+		if (f.cars.getCar_model() == carName) {
+			cout << "Car found\n";
+			carPrice = f.cars.getCar_price();
+			ioFile.seekg(0);
+			while (ioFile.read(reinterpret_cast<char*>(&f), sizeof(ShowRoom))) {
+			// nested loop to search for the member that logged in and copy his balance
+				if (f.mem.getMem_ID() == memid) {
+					cout << "Member found\n";
+					net = f.mem.getMem_bal();
+			
+				}
+			}
+			// back to initial loop to compare price of the founded car with the balance of the member that logged in(WHICH We COPIED In tTHE NESTED LOOp)
+			
+			if (net >= f.cars.getCar_price()) {
+				chk2 = true;
+			//IF MEMBER NET WORTH IS MORE THAN THE PRICE
+			}
+			if (chk2) {
+			//GO back to the nested loop that searched for the member that logged in and update his data
+				while (ioFile.read(reinterpret_cast<char*>(&f), sizeof(ShowRoom))) {
+					if (f.mem.getMem_ID() == memid) {
+
+						f.mem.getMem_bal() - carPrice;
+						f.mem.getMem_amspent() + carPrice;
+						f.mem.getMem_noofCars_bought() + 1;
+					}
+
+				}
+			}
+			//back to the inital loop to change the stock of car
+			f.cars.getCar_noofUnits() - 1;
+			chk = true;
+			//cars.updateUnits(f.cars);
+			ioFile.write(reinterpret_cast<char*>(&f), sizeof(ShowRoom));
+		}
+
+	}if (chk == false) {
+		cout << "no car found\n";
+	}
+
+	ioFile.close();   
+}
+ShowRoom::ShowRoom() {
+
+	revenue = 20000000;
+
+		
+	
+}
+int main() {
+	int memberloop = 0, carloop = 0, emploop = 0, memAge, balan, cnic, carsBought, memid, tempmemid, choice1, memlogin, choice2, i = 4, empid, count1, count2, count3, k = 0;
+	float amouSpent;
+	char ewin;
+	string carBuy;
+	bool chk1 = false, chk2 = false, chk3 = false;
+	ifstream readFile;
+	ofstream writeFile;
+	fstream ioFile;
+	ShowRoom f,s;
+	
+	while (1) {
+		cout << endl << endl << endl;
+		cout << "                                ......... Welcome to the ShowRoom! ........" << endl << endl;
+		cout << "                             1-Scroll as a Member          2.Scroll as a non Member  " << endl;
+		cout << endl << endl;
+		cout << "                             3-Log-in as an Employee       4.Exit                                 " << endl;
+		cin >> choice1;
+		if (choice1 == 1) {
+			system("CLS");
+			cout << "Enter your member id: \n";
+			cin >> memid;
+			
+			if (f.verifyMem(memid)) {
+			system("CLS");
+			}
+				cout << "1-View all cars \n";
+				cout << "2-search a car by model\n";
+				cout << "3-View cars within your price range\n";
+				cin >> choice2;
+				//cout << "choice2 taken\n";
+				if (choice2 == 1) {
+				readFile.open("some.bin", ios::binary);
+					
+					if (!readFile.is_open()) {
+						cout << "file not open";
+					}
+
+					while (readFile.read(reinterpret_cast<char*>(&f),sizeof(ShowRoom))) {
+						//cout << "loop";
+					
+						if (f.cars.getCar_noofUnits() != 0) {
+						
+							f.cars.displayData_car();
+							cout <<endl;
+						chk3 = true;
+						}
+						
+					}
+					readFile.close();
+							cout << "Please enter the  model of the car(specifically) you want to buy\n";
+							cin >> carBuy;
+							f.buyCar(carBuy,f,memid);
+							}
+				if (chk3 == false) {
+					cout << "Car not found\n";
+				}
+				else if (choice2 == 2) {
+
+				}
+				else if (choice2 == 3) {
+
+				}
+				else {
+					cout << "Invalid choice \n";
+				}
+			
+			
+			
+			}
+			else {
+				cout << "No member found\n";
+			}
+			
+			cout << "Press any key to go back to home page\n";
+			cin >> ewin;
+			system("CLS");
+		}
+
+		else if (choice1 == 2) {
+			system("CLS");
+			cout << "2\n";
+			cout << "Press any key to go back to home page\n";
+			cin >> ewin;
+			system("CLS");
+		}
+		else if (choice1 == 3) {
+			int empi;
+			cout << "Enter your employee id: " << endl;
+			cin >> empi;
+			if (f.verifyEmp(empi)) {
+				system("CLS");
+				cout << "1-Add new cars\n2-Modify an existing member\n3-Delete an existing member\n4-Add new members\n5-View all members\n6-View all cars\n";
+				cin >> choice2;
+				if (choice2 == 1) {
+					int choice3;
+					cout << "How many cars would you like to add?: " << endl;
+					cin >> choice3;
+					for (int i = 0; i < choice3; i++) {						
+						f.addCar(f);
+						system("CLS");
+					}
+					
+				}
+				else if (choice2 == 2) {
+
+				}
+				else if (choice2 == 3) {
+
+				}
+				else if (choice2 == 4) {
+					int counr;
+					cout << "How many members would you like you to add\n";
+					cin >> counr;
+					for (int i = 0; i < counr; i++) {
+						f.addMember(f);
+						system("CLS");
+					}
+					
+				}
+				else if (choice2 == 5) {
+					f.viewMembers(f);
+
+
+				}
+				else if (choice2 == 6) {
+					f.viewCars(f);
+				}
+				else {
+					system("CLS");
+					cout << "Inalid option\n";
+				}
+
+
+
+			}
+			else {
+				cout << "no employee found\n";
+			}
+			cout << "Press any key to go back to home page\n";
+			cin >> ewin;
+			system("CLS");
+		}
+		else if (choice1 == 4) {
+			system("CLS");
+			exit(0);
+		}
+	}
+
+
+}
